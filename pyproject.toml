@@ -1,0 +1,44 @@
+[project]
+name = "ledger"
+version = "0.1.0"
+description = "Regulated-document RAG with the eval harness built first"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Akash Anande" }]
+
+dependencies = [
+    "docling>=2.0",
+    "opensearch-py>=2.6",
+    "ragas>=0.2",
+    "sentence-transformers>=3.0",
+    "streamlit>=1.38",
+    "requests>=2.32",
+    "pydantic>=2.8",
+    "python-dotenv>=1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "ruff>=0.6",
+    "mypy>=1.11",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
