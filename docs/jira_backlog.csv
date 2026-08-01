@@ -1,64 +1,64 @@
-Issue Type,Summary,Description,Epic Name,Epic Link,Priority,Story Points,Labels
-Epic,Project Setup & Infra,"Repository scaffolding, CI, and dev environment for Ledger.",Project Setup & Infra,,High,3,infra
-Epic,Eval Harness Foundation,"Build the gold question set and measurement harness before any retriever exists.",Eval Harness Foundation,,Highest,13,measure-first
-Epic,Ingestion Pipeline,"Pull SEC EDGAR filings and parse them into structured documents with routed elements.",Ingestion Pipeline,,High,8,ingestion
-Epic,Chunking Strategies,"Implement naive, structural, and contextual chunking plus table serialisation.",Chunking Strategies,,High,13,chunking
-Epic,Indexing,"Embed chunks and index into OpenSearch for both dense (kNN) and lexical (BM25) retrieval.",Indexing,,High,8,indexing
-Epic,Retrieval Strategies,"Implement dense-only, BM25-only, hybrid RRF, and cross-encoder reranked retrieval.",Retrieval Strategies,,High,13,retrieval
-Epic,Benchmarking & Results,"Run all five configurations through the eval harness and record the before/after curve.",Benchmarking & Results,,Highest,8,eval
-Epic,Answer Serving & UI,"Generate cited answers and expose them via a bare Streamlit page.",Answer Serving & UI,,Medium,5,serve
-Epic,Documentation & Ship,"README, DECISIONS.md, architecture diagram, and full-stack docker compose verification.",Documentation & Ship,,High,5,docs
-Epic,Content & Distribution,"Videos and posts documenting the build for the portfolio.",Content & Distribution,,Low,8,content
+ID,Issue Type,Summary,Description,Epic Name,Epic Link,Priority,Story Points,Labels,Status
+EPIC-01,Epic,Project Setup & Infra,"Repository scaffolding, CI, and dev environment for Ledger.",Project Setup & Infra,,High,3,infra,Done
+EPIC-02,Epic,Eval Harness Foundation,"Build the gold question set and measurement harness before any retriever exists.",Eval Harness Foundation,,Highest,13,measure-first,In Progress
+EPIC-03,Epic,Ingestion Pipeline,"Pull SEC EDGAR filings and parse them into structured documents with routed elements.",Ingestion Pipeline,,High,8,ingestion,Todo
+EPIC-04,Epic,Chunking Strategies,"Implement naive, structural, and contextual chunking plus table serialisation.",Chunking Strategies,,High,13,chunking,Todo
+EPIC-05,Epic,Indexing,"Embed chunks and index into OpenSearch for both dense (kNN) and lexical (BM25) retrieval.",Indexing,,High,8,indexing,Todo
+EPIC-06,Epic,Retrieval Strategies,"Implement dense-only, BM25-only, hybrid RRF, and cross-encoder reranked retrieval.",Retrieval Strategies,,High,13,retrieval,Todo
+EPIC-07,Epic,Benchmarking & Results,"Run all five configurations through the eval harness and record the before/after curve.",Benchmarking & Results,,Highest,8,eval,Todo
+EPIC-08,Epic,Answer Serving & UI,"Generate cited answers and expose them via a bare Streamlit page.",Answer Serving & UI,,Medium,5,serve,Todo
+EPIC-09,Epic,Documentation & Ship,"README, DECISIONS.md, architecture diagram, and full-stack docker compose verification.",Documentation & Ship,,High,5,docs,Todo
+EPIC-10,Epic,Content & Distribution,"Videos and posts documenting the build for the portfolio.",Content & Distribution,,Low,8,content,Todo
 
-Task,Init repo with README/LICENSE/.gitignore/CI,"Repository created with best-practice scaffolding: README with architecture diagram, MIT LICENSE, .gitignore, GitHub Actions CI (lint+test), issue/PR templates.",,Project Setup & Infra,High,2,infra
-Task,Set up Python project (pyproject.toml + src layout),"src/ledger package layout with ingestion/chunking/indexing/retrieval/eval/serve subpackages; dev dependencies (ruff, mypy, pytest).",,Project Setup & Infra,Medium,1,infra
-Task,Docker compose skeleton for OpenSearch + app,"docker-compose.yml bringing up OpenSearch (single-node) and the app container; docker compose up must run the whole stack per Definition of Done.",,Project Setup & Infra,High,2,infra
-Task,"Pre-commit hooks (ruff, whitespace, large-file check)","Add .pre-commit-config.yaml and document install step in CONTRIBUTING.md.",,Project Setup & Infra,Low,1,infra
+LEDGER-001,Task,Init repo with README/LICENSE/.gitignore/CI,"Repository created with best-practice scaffolding: README with architecture diagram, MIT LICENSE, .gitignore, GitHub Actions CI (lint+test), issue/PR templates.",,Project Setup & Infra,High,2,infra,Done
+LEDGER-002,Task,Set up Python project (pyproject.toml + src layout),"src/ledger package layout with ingestion/chunking/indexing/retrieval/eval/serve subpackages; dev dependencies (ruff, mypy, pytest).",,Project Setup & Infra,Medium,1,infra,Done
+LEDGER-003,Task,Docker compose skeleton for OpenSearch + app,"docker-compose.yml bringing up OpenSearch (single-node) and the app container; docker compose up must run the whole stack per Definition of Done.",,Project Setup & Infra,High,2,infra,Done
+LEDGER-004,Task,"Pre-commit hooks (ruff, whitespace, large-file check)","Add .pre-commit-config.yaml and document install step in CONTRIBUTING.md.",,Project Setup & Infra,Low,1,infra,Done
 
-Story,Design gold question set schema,"Define the Q/A record schema: question, answer span, source document/page, difficulty band, filing reference(s).",,Eval Harness Foundation,High,2,measure-first
-Task,Write 30 direct-lookup gold questions,"Band 1 of the gold set. Example: 'What was total revenue for FY2024?'. Expected baseline recall ~0.95.",,Eval Harness Foundation,High,3,measure-first
-Task,Write 30 cross-table gold questions,"Band 2. Requires combining two tables, often on different pages, e.g. YoY segment operating margin change.",,Eval Harness Foundation,High,3,measure-first
-Task,Write 30 footnote-dependent gold questions,"Band 3. Paragraph is materially wrong without its footnote — this is where naive chunking fails. E.g. restated figures.",,Eval Harness Foundation,High,3,measure-first
-Task,Write 30 multi-document gold questions,"Band 4. Requires retrieving and comparing across two filings, e.g. risk factor language change between Q2 and Q3.",,Eval Harness Foundation,High,3,measure-first
-Story,Build Ragas metrics wiring,"Wire up Ragas for context recall, context precision, and faithfulness scoring against the gold set.",,Eval Harness Foundation,Highest,5,measure-first
-Story,Implement recall@k / MRR / nDCG calculators,"Standalone retrieval-quality metrics independent of Ragas, computed per configuration.",,Eval Harness Foundation,Highest,3,measure-first
-Task,RESULTS.md auto-generation from eval run,"`make eval` writes/updates the before/after table in RESULTS.md automatically.",,Eval Harness Foundation,Medium,2,measure-first
+LEDGER-005,Story,Design gold question set schema,"Define the Q/A record schema: question, answer span, source document/page, difficulty band, filing reference(s).",,Eval Harness Foundation,High,2,measure-first,Done
+LEDGER-006,Story,Implement recall@k / MRR / nDCG calculators,"Standalone retrieval-quality metrics independent of Ragas, computed per configuration.",,Eval Harness Foundation,Highest,3,measure-first,Done
+LEDGER-007,Task,Write 30 direct-lookup gold questions,"Band 1 of the gold set. Example: 'What was total revenue for FY2024?'. Expected baseline recall ~0.95.",,Eval Harness Foundation,High,3,measure-first,Todo
+LEDGER-008,Task,Write 30 cross-table gold questions,"Band 2. Requires combining two tables, often on different pages, e.g. YoY segment operating margin change.",,Eval Harness Foundation,High,3,measure-first,Todo
+LEDGER-009,Task,Write 30 footnote-dependent gold questions,"Band 3. Paragraph is materially wrong without its footnote — this is where naive chunking fails. E.g. restated figures.",,Eval Harness Foundation,High,3,measure-first,Todo
+LEDGER-010,Task,Write 30 multi-document gold questions,"Band 4. Requires retrieving and comparing across two filings, e.g. risk factor language change between Q2 and Q3.",,Eval Harness Foundation,High,3,measure-first,Todo
+LEDGER-011,Story,Build Ragas metrics wiring,"Wire up Ragas for context recall, context precision, and faithfulness scoring against the gold set.",,Eval Harness Foundation,Highest,5,measure-first,Todo
+LEDGER-012,Task,RESULTS.md auto-generation from eval run,"`make eval` writes/updates the before/after table in RESULTS.md automatically.",,Eval Harness Foundation,Medium,2,measure-first,Todo
 
-Story,SEC EDGAR API client,"Fetch 10-K/10-Q filings via the EDGAR full-text search / submissions API, respecting rate limits and required User-Agent header.",,Ingestion Pipeline,High,3,ingestion
-Story,Docling PDF-to-structured-doc integration,"Parse fetched filings with Docling into a structured document representation (sections, tables, footnotes).",,Ingestion Pipeline,High,5,ingestion
-Story,Element router (prose vs tables),"Route parsed elements to the correct downstream path: prose to chunkers, tables to the serialiser.",,Ingestion Pipeline,Medium,2,ingestion
-Story,Table serialiser (markdown + caption),"Serialise multi-page tables to markdown with an attached caption, preserved as a unit rather than split by token count.",,Ingestion Pipeline,High,3,ingestion
+LEDGER-013,Story,SEC EDGAR API client,"Fetch 10-K/10-Q filings via the EDGAR full-text search / submissions API, respecting rate limits and required User-Agent header.",,Ingestion Pipeline,High,3,ingestion,Todo
+LEDGER-014,Story,Docling PDF-to-structured-doc integration,"Parse fetched filings with Docling into a structured document representation (sections, tables, footnotes).",,Ingestion Pipeline,High,5,ingestion,Todo
+LEDGER-015,Story,Element router (prose vs tables),"Route parsed elements to the correct downstream path: prose to chunkers, tables to the serialiser.",,Ingestion Pipeline,Medium,2,ingestion,Todo
+LEDGER-016,Story,Table serialiser (markdown + caption),"Serialise multi-page tables to markdown with an attached caption, preserved as a unit rather than split by token count.",,Ingestion Pipeline,High,3,ingestion,Todo
 
-Story,Naive 512-token chunker,"Fixed-size token chunking baseline, no structure awareness.",,Chunking Strategies,High,2,chunking
-Story,Structural section-aware chunker,"Chunk boundaries respect document section structure (not just token count).",,Chunking Strategies,High,5,chunking
-Story,Contextual LLM-prefixed chunker,"Each chunk is prefixed with an LLM-generated summary of its surrounding context before embedding.",,Chunking Strategies,High,5,chunking
-Task,Wire table serialiser output into structural/contextual chunkers,"Ensure serialised tables flow into the structural and contextual chunking paths per architecture diagram.",,Chunking Strategies,Medium,1,chunking
+LEDGER-017,Story,Naive 512-token chunker,"Fixed-size token chunking baseline, no structure awareness.",,Chunking Strategies,High,2,chunking,Todo
+LEDGER-018,Story,Structural section-aware chunker,"Chunk boundaries respect document section structure (not just token count).",,Chunking Strategies,High,5,chunking,Todo
+LEDGER-019,Story,Contextual LLM-prefixed chunker,"Each chunk is prefixed with an LLM-generated summary of its surrounding context before embedding.",,Chunking Strategies,High,5,chunking,Todo
+LEDGER-020,Task,Wire table serialiser output into structural/contextual chunkers,"Ensure serialised tables flow into the structural and contextual chunking paths per architecture diagram.",,Chunking Strategies,Medium,1,chunking,Todo
 
-Story,bge-large embedding pipeline,"Batch-embed all chunk variants with bge-large.",,Indexing,High,3,indexing
-Story,OpenSearch kNN vector index setup,"Create and populate the OpenSearch kNN index from embedded chunks.",,Indexing,High,3,indexing
-Story,OpenSearch BM25 lexical index setup,"Create and populate the OpenSearch BM25 lexical index from raw chunk text.",,Indexing,High,2,indexing
+LEDGER-021,Story,bge-large embedding pipeline,"Batch-embed all chunk variants with bge-large.",,Indexing,High,3,indexing,Todo
+LEDGER-022,Story,OpenSearch kNN vector index setup,"Create and populate the OpenSearch kNN index from embedded chunks.",,Indexing,High,3,indexing,Todo
+LEDGER-023,Story,OpenSearch BM25 lexical index setup,"Create and populate the OpenSearch BM25 lexical index from raw chunk text.",,Indexing,High,2,indexing,Todo
 
-Story,Dense-only retriever,"Baseline retrieval using only the kNN vector index.",,Retrieval Strategies,High,2,retrieval
-Story,BM25-only retriever,"Baseline retrieval using only the lexical index.",,Retrieval Strategies,High,2,retrieval
-Story,Hybrid retriever with Reciprocal Rank Fusion,"Combine dense and BM25 results via RRF in a single OpenSearch-backed pipeline.",,Retrieval Strategies,Highest,5,retrieval
-Story,Cross-encoder reranker,"Rerank hybrid RRF results with a cross-encoder; measure recall gain vs added p95 latency.",,Retrieval Strategies,High,5,retrieval
+LEDGER-024,Story,Dense-only retriever,"Baseline retrieval using only the kNN vector index.",,Retrieval Strategies,High,2,retrieval,Todo
+LEDGER-025,Story,BM25-only retriever,"Baseline retrieval using only the lexical index.",,Retrieval Strategies,High,2,retrieval,Todo
+LEDGER-026,Story,Hybrid retriever with Reciprocal Rank Fusion,"Combine dense and BM25 results via RRF in a single OpenSearch-backed pipeline.",,Retrieval Strategies,Highest,5,retrieval,Todo
+LEDGER-027,Story,Cross-encoder reranker,"Rerank hybrid RRF results with a cross-encoder; measure recall gain vs added p95 latency.",,Retrieval Strategies,High,5,retrieval,Todo
 
-Task,Record naive+dense baseline in RESULTS.md,"First eval run through the harness; establishes the baseline row of the results table. Milestone per build sequence.",,Benchmarking & Results,Highest,2,eval
-Task,Benchmark all five configurations,"Run structural+dense, structural+hybrid RRF, contextual+hybrid RRF, and +rerank through the eval harness.",,Benchmarking & Results,Highest,3,eval
-Task,p95 latency measurement harness,"Capture p95 latency per configuration alongside recall/MRR/faithfulness.",,Benchmarking & Results,High,2,eval
-Task,Write DECISIONS.md tradeoff narrative,"Fill in ADR-003 and ADR-004 (contextual chunking cost/benefit, rerank latency tradeoff) with actual measured numbers.",,Benchmarking & Results,Medium,1,eval
+LEDGER-028,Task,Record naive+dense baseline in RESULTS.md,"First eval run through the harness; establishes the baseline row of the results table. Milestone per build sequence.",,Benchmarking & Results,Highest,2,eval,Todo
+LEDGER-029,Task,Benchmark all five configurations,"Run structural+dense, structural+hybrid RRF, contextual+hybrid RRF, and +rerank through the eval harness.",,Benchmarking & Results,Highest,3,eval,Todo
+LEDGER-030,Task,p95 latency measurement harness,"Capture p95 latency per configuration alongside recall/MRR/faithfulness.",,Benchmarking & Results,High,2,eval,Todo
+LEDGER-031,Task,Write DECISIONS.md tradeoff narrative,"Fill in ADR-003 and ADR-004 (contextual chunking cost/benefit, rerank latency tradeoff) with actual measured numbers.",,Benchmarking & Results,Medium,1,eval,Todo
 
-Story,LLM answer generation with citation enforcement,"Generate answers strictly grounded in retrieved source spans; a wrong-but-confident answer is treated as a bug.",,Answer Serving & UI,High,3,serve
-Story,Streamlit answer + source-span UI,"Bare Streamlit page showing the answer alongside the cited source spans.",,Answer Serving & UI,Medium,2,serve
+LEDGER-032,Story,LLM answer generation with citation enforcement,"Generate answers strictly grounded in retrieved source spans; a wrong-but-confident answer is treated as a bug.",,Answer Serving & UI,High,3,serve,Todo
+LEDGER-033,Story,Streamlit answer + source-span UI,"Bare Streamlit page showing the answer alongside the cited source spans.",,Answer Serving & UI,Medium,2,serve,Todo
 
-Task,Finalize README above-the-fold diagram and results,"README leads with the Mermaid architecture diagram and the results curve, not a demo screenshot.",,Documentation & Ship,High,1,docs
-Task,Complete DECISIONS.md for all five ADRs,"OpenSearch vs Qdrant, hand-built evals vs synthetic, contextual chunking cost/benefit, rerank latency tradeoff, table serialisation approach — all resolved with rationale.",,Documentation & Ship,High,2,docs
-Task,Verify full-stack docker compose up,"Confirm `docker compose up` brings up OpenSearch and the app end-to-end from a clean checkout.",,Documentation & Ship,High,1,docs
-Task,Final Definition-of-Done review,"Walk the checklist in the project spec end-to-end before calling the project shipped.",,Documentation & Ship,Highest,1,docs
+LEDGER-034,Task,Finalize README above-the-fold diagram and results,"README leads with the Mermaid architecture diagram and the results curve, not a demo screenshot.",,Documentation & Ship,High,1,docs,Todo
+LEDGER-035,Task,Complete DECISIONS.md for all five ADRs,"OpenSearch vs Qdrant, hand-built evals vs synthetic, contextual chunking cost/benefit, rerank latency tradeoff, table serialisation approach — all resolved with rationale.",,Documentation & Ship,High,2,docs,Todo
+LEDGER-036,Task,Verify full-stack docker compose up,"Confirm `docker compose up` brings up OpenSearch and the app end-to-end from a clean checkout.",,Documentation & Ship,High,1,docs,Todo
+LEDGER-037,Task,Final Definition-of-Done review,"Walk the checklist in the project spec end-to-end before calling the project shipped.",,Documentation & Ship,Highest,1,docs,Todo
 
-Task,Record Video 1 — RAG demos don't tell you this,"'I built a RAG system for financial filings. Here's what the demos don't tell you.'",,Content & Distribution,Medium,2,content
-Task,Record Video 2 — chunking is the bottleneck,"'Your vector DB isn't the bottleneck. Your chunking is.' Includes the recall curve.",,Content & Distribution,Medium,2,content
-Task,Write build log post — 120 questions by hand,"'Week 1: I wrote 120 eval questions by hand before writing any retrieval code. Here's why.'",,Content & Distribution,Low,1,content
-Task,Write opinion post — synthetic evals measure agreement not correctness,"'LLM-generated eval sets measure whether your retriever agrees with your generator. That's not the same as correct.'",,Content & Distribution,Low,1,content
-Task,Write story post — the footnote on page 214,"'A footnote on page 214 changed the answer. My chunker had no idea it existed.'",,Content & Distribution,Low,1,content
-Task,Write explainer post — RRF in 200 words,"'RRF in 200 words: why hybrid search beats both of its halves.'",,Content & Distribution,Low,1,content
+LEDGER-038,Task,Record Video 1 — RAG demos don't tell you this,"'I built a RAG system for financial filings. Here's what the demos don't tell you.'",,Content & Distribution,Medium,2,content,Todo
+LEDGER-039,Task,Record Video 2 — chunking is the bottleneck,"'Your vector DB isn't the bottleneck. Your chunking is.' Includes the recall curve.",,Content & Distribution,Medium,2,content,Todo
+LEDGER-040,Task,Write build log post — 120 questions by hand,"'Week 1: I wrote 120 eval questions by hand before writing any retrieval code. Here's why.'",,Content & Distribution,Low,1,content,Todo
+LEDGER-041,Task,Write opinion post — synthetic evals measure agreement not correctness,"'LLM-generated eval sets measure whether your retriever agrees with your generator. That's not the same as correct.'",,Content & Distribution,Low,1,content,Todo
+LEDGER-042,Task,Write story post — the footnote on page 214,"'A footnote on page 214 changed the answer. My chunker had no idea it existed.'",,Content & Distribution,Low,1,content,Todo
+LEDGER-043,Task,Write explainer post — RRF in 200 words,"'RRF in 200 words: why hybrid search beats both of its halves.'",,Content & Distribution,Low,1,content,Todo
