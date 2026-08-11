@@ -1,6 +1,6 @@
 ID,Issue Type,Summary,Description,Epic Name,Epic Link,Priority,Story Points,Labels,Status
 EPIC-01,Epic,Project Setup & Infra,"Repository scaffolding, CI, and dev environment for Ledger.",Project Setup & Infra,,High,3,infra,Done
-EPIC-02,Epic,Eval Harness Foundation,"Build the gold question set and measurement harness before any retriever exists.",Eval Harness Foundation,,Highest,13,measure-first,In Progress
+EPIC-02,Epic,Eval Harness Foundation,"Build the gold question set and measurement harness before any retriever exists.",Eval Harness Foundation,,Highest,13,measure-first,Done
 EPIC-03,Epic,Ingestion Pipeline,"Pull SEC EDGAR filings and parse them into structured documents with routed elements.",Ingestion Pipeline,,High,8,ingestion,Todo
 EPIC-04,Epic,Chunking Strategies,"Implement naive, structural, and contextual chunking plus table serialisation.",Chunking Strategies,,High,13,chunking,Todo
 EPIC-05,Epic,Indexing,"Embed chunks and index into OpenSearch for both dense (kNN) and lexical (BM25) retrieval.",Indexing,,High,8,indexing,Todo
@@ -22,7 +22,7 @@ LEDGER-008,Task,Write 30 cross-table gold questions,"Band 2. Requires combining 
 LEDGER-009,Task,Write 30 footnote-dependent gold questions,"Band 3. Paragraph is materially wrong without its footnote — this is where naive chunking fails. E.g. restated figures.",,Eval Harness Foundation,High,3,measure-first,Done
 LEDGER-010,Task,Write 30 multi-document gold questions,"Band 4. Requires retrieving and comparing across two filings, e.g. risk factor language change between Q2 and Q3.",,Eval Harness Foundation,High,3,measure-first,Done
 LEDGER-011,Story,Build Ragas metrics wiring,"Wire up Ragas for context recall, context precision, and faithfulness scoring against the gold set.",,Eval Harness Foundation,Highest,5,measure-first,Done
-LEDGER-012,Task,RESULTS.md auto-generation from eval run,"`make eval` writes/updates the before/after table in RESULTS.md automatically.",,Eval Harness Foundation,Medium,2,measure-first,Todo
+LEDGER-012,Task,RESULTS.md auto-generation from eval run,"`make eval` writes/updates the before/after table in RESULTS.md automatically.",,Eval Harness Foundation,Medium,2,measure-first,Done
 
 LEDGER-013,Story,SEC EDGAR API client,"Fetch 10-K/10-Q filings via the EDGAR full-text search / submissions API, respecting rate limits and required User-Agent header.",,Ingestion Pipeline,High,3,ingestion,Todo
 LEDGER-014,Story,Docling PDF-to-structured-doc integration,"Parse fetched filings with Docling into a structured document representation (sections, tables, footnotes).",,Ingestion Pipeline,High,5,ingestion,Todo
