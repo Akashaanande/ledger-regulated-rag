@@ -69,7 +69,7 @@ flowchart TB
     subgraph Eval["5 · Eval harness — BUILT FIRST"]
         I[Gold Q/A set<br/>120 questions]
         J[Ragas metrics<br/>context recall / precision<br/>faithfulness]
-        K[recall@k · MRR · nDCG]
+        K["recall@k · MRR · nDCG"]
         L[[RESULTS.md<br/>before/after table]]
         I --> J
         H1 --> J
