@@ -26,7 +26,7 @@ LEDGER-012,Task,RESULTS.md auto-generation from eval run,"`make eval` writes/upd
 
 LEDGER-013,Story,SEC EDGAR API client,"Fetch 10-K/10-Q filings via the EDGAR full-text search / submissions API, respecting rate limits and required User-Agent header.",,Ingestion Pipeline,High,3,ingestion,Done
 LEDGER-014,Story,Docling PDF-to-structured-doc integration,"Parse fetched filings with Docling into a structured document representation (sections, tables, footnotes).",,Ingestion Pipeline,High,5,ingestion,Done
-LEDGER-015,Story,Element router (prose vs tables),"Route parsed elements to the correct downstream path: prose to chunkers, tables to the serialiser.",,Ingestion Pipeline,Medium,2,ingestion,Todo
+LEDGER-015,Story,Element router (prose vs tables),"Route parsed elements to the correct downstream path: prose to chunkers, tables to the serialiser.",,Ingestion Pipeline,Medium,2,ingestion,Done
 LEDGER-016,Story,Table serialiser (markdown + caption),"Serialise multi-page tables to markdown with an attached caption, preserved as a unit rather than split by token count.",,Ingestion Pipeline,High,3,ingestion,Todo
 
 LEDGER-017,Story,Naive 512-token chunker,"Fixed-size token chunking baseline, no structure awareness.",,Chunking Strategies,High,2,chunking,Todo
