@@ -2,9 +2,9 @@
 path -- see the README architecture diagram's "Element router" node.
 
 Prose (TEXT, FOOTNOTE) goes straight to the chunkers (LEDGER-017/018/019).
-Tables go to the table serialiser (LEDGER-016) first; its markdown output is
-then wired back into the structural/contextual chunkers by LEDGER-020, not
-here -- this module only does the initial split.
+Tables go to the table serialiser (table_serializer.py) first; its markdown
+output is then wired back into the structural/contextual chunkers by
+LEDGER-020, not here -- this module only does the initial split.
 
 SECTION_HEADER and OTHER elements are dropped: heading text is already
 carried on every element's `section_path`, so chunking the heading itself
