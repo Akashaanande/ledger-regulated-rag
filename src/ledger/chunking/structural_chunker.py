@@ -35,7 +35,7 @@ class StructuralChunk:
     section_path: tuple[str, ...] = ()
 
 
-def _group_by_consecutive_section(
+def group_by_consecutive_section(
     elements: Iterable[DocElement],
 ) -> tuple[tuple[tuple[str, ...], tuple[DocElement, ...]], ...]:
     """Split `elements` into consecutive runs sharing the same section_path.
@@ -43,6 +43,10 @@ def _group_by_consecutive_section(
     Two runs with an identical section_path that aren't adjacent (e.g. a
     heading repeated in a different part of the filing) stay separate --
     grouping is positional, not a dict keyed by path.
+
+    Public because the contextual chunker (contextual_chunker.py) reuses it
+    too: both chunkers share the same notion of a section boundary, only
+    what happens inside each run differs.
     """
     groups: list[tuple[tuple[str, ...], list[DocElement]]] = []
     for element in elements:
@@ -58,7 +62,7 @@ def structural_chunk_prose(
 ) -> tuple[StructuralChunk, ...]:
     """Chunk a filing's routed prose elements, one section run at a time."""
     chunks: list[StructuralChunk] = []
-    for section_path, section_elements in _group_by_consecutive_section(elements):
+    for section_path, section_elements in group_by_consecutive_section(elements):
         text = " ".join(e.text for e in section_elements)
         for chunk in chunk_text(text, tokenizer, chunk_size=chunk_size):
             chunks.append(StructuralChunk(text=chunk.text, section_path=section_path))

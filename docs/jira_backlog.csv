@@ -31,7 +31,7 @@ LEDGER-016,Story,Table serialiser (markdown + caption),"Serialise multi-page tab
 
 LEDGER-017,Story,Naive 512-token chunker,"Fixed-size token chunking baseline, no structure awareness.",,Chunking Strategies,High,2,chunking,Done
 LEDGER-018,Story,Structural section-aware chunker,"Chunk boundaries respect document section structure (not just token count).",,Chunking Strategies,High,5,chunking,Done
-LEDGER-019,Story,Contextual LLM-prefixed chunker,"Each chunk is prefixed with an LLM-generated summary of its surrounding context before embedding.",,Chunking Strategies,High,5,chunking,Todo
+LEDGER-019,Story,Contextual LLM-prefixed chunker,"Each chunk is prefixed with an LLM-generated summary of its surrounding context before embedding.",,Chunking Strategies,High,5,chunking,Done
 LEDGER-020,Task,Wire table serialiser output into structural/contextual chunkers,"Ensure serialised tables flow into the structural and contextual chunking paths per architecture diagram.",,Chunking Strategies,Medium,1,chunking,Todo
 
 LEDGER-021,Story,bge-large embedding pipeline,"Batch-embed all chunk variants with bge-large.",,Indexing,High,3,indexing,Todo
