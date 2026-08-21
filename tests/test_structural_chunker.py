@@ -1,7 +1,12 @@
 from __future__ import annotations
 
-from ledger.chunking.structural_chunker import StructuralChunk, structural_chunk_prose
+from ledger.chunking.structural_chunker import (
+    StructuralChunk,
+    structural_chunk_filing,
+    structural_chunk_prose,
+)
 from ledger.ingestion.docling_parser import DocElement, ElementKind
+from ledger.ingestion.element_router import RoutedElements
 
 
 class _CharTokenizer:
@@ -81,3 +86,57 @@ def test_structural_chunk_prose_does_not_merge_nonadjacent_runs_of_same_section(
 
 def test_structural_chunk_prose_on_empty_elements_returns_no_chunks():
     assert structural_chunk_prose((), _CharTokenizer(), chunk_size=512) == ()
+
+
+# --- structural_chunk_filing: prose + tables wired together (LEDGER-020) ---
+
+
+def _table(markdown: str, section_path: tuple[str, ...] = ()) -> DocElement:
+    return DocElement(kind=ElementKind.TABLE, text=markdown, section_path=section_path)
+
+
+def test_structural_chunk_filing_appends_tables_after_prose_chunks():
+    routed = RoutedElements(
+        prose=(_text("ab", ("Item 8",)),),
+        tables=(_table("| a | b |", ("Item 8",)),),
+    )
+
+    result = structural_chunk_filing(routed, _CharTokenizer(), chunk_size=512)
+
+    assert result == (
+        StructuralChunk(text="ab", section_path=("Item 8",)),
+        StructuralChunk(text="| a | b |", section_path=("Item 8",)),
+    )
+
+
+def test_structural_chunk_filing_never_splits_a_table_by_token_count():
+    long_table = "| " + "x" * 20 + " |"
+    routed = RoutedElements(prose=(), tables=(_table(long_table, ("Item 8",)),))
+
+    result = structural_chunk_filing(routed, _CharTokenizer(), chunk_size=3)
+
+    assert result == (StructuralChunk(text=long_table, section_path=("Item 8",)),)
+
+
+def test_structural_chunk_filing_fuses_table_caption_via_the_serialiser():
+    routed = RoutedElements(
+        prose=(),
+        tables=(
+            DocElement(
+                kind=ElementKind.TABLE,
+                text="| a | b |",
+                section_path=("Item 8",),
+                table_caption="Revenue by segment",
+            ),
+        ),
+    )
+
+    result = structural_chunk_filing(routed, _CharTokenizer(), chunk_size=512)
+
+    assert result == (
+        StructuralChunk(text="**Revenue by segment**\n\n| a | b |", section_path=("Item 8",)),
+    )
+
+
+def test_structural_chunk_filing_on_empty_routed_elements_returns_no_chunks():
+    assert structural_chunk_filing(RoutedElements(), _CharTokenizer(), chunk_size=512) == ()

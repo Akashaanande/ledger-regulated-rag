@@ -13,9 +13,11 @@ Token windowing itself is not reimplemented here -- `chunk_text` from
 naive_chunker.py is reused as-is. The only thing this module adds is where
 the boundaries fall before that windowing happens.
 
-Tables are not handled here yet: per the architecture diagram the table
-serialiser's output also feeds this chunker, but wiring that in is
-LEDGER-020, not this ticket.
+Tables never go through that windowing at all (`structural_chunk_filing`
+below). ADR-005 already settled that a table is preserved as one unit
+rather than split by token count, so a serialised table becomes exactly one
+StructuralChunk, verbatim -- its caption is already its context, the same
+role a section boundary plays for prose.
 """
 
 from __future__ import annotations
@@ -25,6 +27,8 @@ from dataclasses import dataclass
 
 from ledger.chunking.naive_chunker import Tokenizer, chunk_text
 from ledger.ingestion.docling_parser import DocElement
+from ledger.ingestion.element_router import RoutedElements
+from ledger.ingestion.table_serializer import serialize_tables
 
 
 @dataclass(frozen=True)
@@ -67,3 +71,19 @@ def structural_chunk_prose(
         for chunk in chunk_text(text, tokenizer, chunk_size=chunk_size):
             chunks.append(StructuralChunk(text=chunk.text, section_path=section_path))
     return tuple(chunks)
+
+
+def structural_chunk_filing(
+    routed: RoutedElements, tokenizer: Tokenizer, *, chunk_size: int = 512
+) -> tuple[StructuralChunk, ...]:
+    """Structurally chunk a filing's prose, then append its tables verbatim.
+
+    Each serialised table becomes exactly one StructuralChunk -- never
+    windowed by token count, per ADR-005.
+    """
+    prose_chunks = structural_chunk_prose(routed.prose, tokenizer, chunk_size=chunk_size)
+    table_chunks = tuple(
+        StructuralChunk(text=table.markdown, section_path=table.section_path)
+        for table in serialize_tables(routed.tables)
+    )
+    return prose_chunks + table_chunks

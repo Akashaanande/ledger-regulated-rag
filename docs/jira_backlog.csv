@@ -2,7 +2,7 @@ ID,Issue Type,Summary,Description,Epic Name,Epic Link,Priority,Story Points,Labe
 EPIC-01,Epic,Project Setup & Infra,"Repository scaffolding, CI, and dev environment for Ledger.",Project Setup & Infra,,High,3,infra,Done
 EPIC-02,Epic,Eval Harness Foundation,"Build the gold question set and measurement harness before any retriever exists.",Eval Harness Foundation,,Highest,13,measure-first,Done
 EPIC-03,Epic,Ingestion Pipeline,"Pull SEC EDGAR filings and parse them into structured documents with routed elements.",Ingestion Pipeline,,High,8,ingestion,Done
-EPIC-04,Epic,Chunking Strategies,"Implement naive, structural, and contextual chunking plus table serialisation.",Chunking Strategies,,High,13,chunking,In Progress
+EPIC-04,Epic,Chunking Strategies,"Implement naive, structural, and contextual chunking plus table serialisation.",Chunking Strategies,,High,13,chunking,Done
 EPIC-05,Epic,Indexing,"Embed chunks and index into OpenSearch for both dense (kNN) and lexical (BM25) retrieval.",Indexing,,High,8,indexing,Todo
 EPIC-06,Epic,Retrieval Strategies,"Implement dense-only, BM25-only, hybrid RRF, and cross-encoder reranked retrieval.",Retrieval Strategies,,High,13,retrieval,Todo
 EPIC-07,Epic,Benchmarking & Results,"Run all five configurations through the eval harness and record the before/after curve.",Benchmarking & Results,,Highest,8,eval,Todo
@@ -32,7 +32,7 @@ LEDGER-016,Story,Table serialiser (markdown + caption),"Serialise multi-page tab
 LEDGER-017,Story,Naive 512-token chunker,"Fixed-size token chunking baseline, no structure awareness.",,Chunking Strategies,High,2,chunking,Done
 LEDGER-018,Story,Structural section-aware chunker,"Chunk boundaries respect document section structure (not just token count).",,Chunking Strategies,High,5,chunking,Done
 LEDGER-019,Story,Contextual LLM-prefixed chunker,"Each chunk is prefixed with an LLM-generated summary of its surrounding context before embedding.",,Chunking Strategies,High,5,chunking,Done
-LEDGER-020,Task,Wire table serialiser output into structural/contextual chunkers,"Ensure serialised tables flow into the structural and contextual chunking paths per architecture diagram.",,Chunking Strategies,Medium,1,chunking,Todo
+LEDGER-020,Task,Wire table serialiser output into structural/contextual chunkers,"Ensure serialised tables flow into the structural and contextual chunking paths per architecture diagram.",,Chunking Strategies,Medium,1,chunking,Done
 
 LEDGER-021,Story,bge-large embedding pipeline,"Batch-embed all chunk variants with bge-large.",,Indexing,High,3,indexing,Todo
 LEDGER-022,Story,OpenSearch kNN vector index setup,"Create and populate the OpenSearch kNN index from embedded chunks.",,Indexing,High,3,indexing,Todo

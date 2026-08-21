@@ -16,6 +16,12 @@ network access or API keys. ADR-003 is exactly why: the recall/faithfulness
 gain has to be measured against structural chunking alone before this
 strategy's extra LLM-call cost is worth defending, so the LLM call has to
 stay swappable for a deterministic fake in that measurement.
+
+Tables skip the LLM call too (`contextual_chunk_filing` below): a serialised
+table's caption already situates it, the same role the generated prefix
+plays for a prose chunk, and ADR-005 already ruled out re-splitting a table
+by token count. Paying for an LLM call to restate a caption the filer
+already wrote would be cost with no signal behind it.
 """
 
 from __future__ import annotations
@@ -27,6 +33,8 @@ from typing import Protocol
 from ledger.chunking.naive_chunker import Tokenizer, chunk_text
 from ledger.chunking.structural_chunker import group_by_consecutive_section
 from ledger.ingestion.docling_parser import DocElement
+from ledger.ingestion.element_router import RoutedElements
+from ledger.ingestion.table_serializer import serialize_tables
 
 
 class ContextGenerator(Protocol):
@@ -75,3 +83,25 @@ def contextual_chunk_prose(
                 )
             )
     return tuple(chunks)
+
+
+def contextual_chunk_filing(
+    routed: RoutedElements,
+    tokenizer: Tokenizer,
+    context_generator: ContextGenerator,
+    *,
+    chunk_size: int = 512,
+) -> tuple[ContextualChunk, ...]:
+    """Contextually chunk a filing's prose, then append its tables verbatim.
+
+    Tables never reach `context_generator` -- their caption already plays
+    the role a generated prefix plays for prose, see the module docstring.
+    """
+    prose_chunks = contextual_chunk_prose(
+        routed.prose, tokenizer, context_generator, chunk_size=chunk_size
+    )
+    table_chunks = tuple(
+        ContextualChunk(text=table.markdown, section_path=table.section_path)
+        for table in serialize_tables(routed.tables)
+    )
+    return prose_chunks + table_chunks

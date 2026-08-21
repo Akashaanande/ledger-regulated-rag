@@ -2,8 +2,13 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from ledger.chunking.contextual_chunker import ContextualChunk, contextual_chunk_prose
+from ledger.chunking.contextual_chunker import (
+    ContextualChunk,
+    contextual_chunk_filing,
+    contextual_chunk_prose,
+)
 from ledger.ingestion.docling_parser import DocElement, ElementKind
+from ledger.ingestion.element_router import RoutedElements
 
 
 class _CharTokenizer:
@@ -88,6 +93,71 @@ def test_contextual_chunk_prose_on_empty_elements_returns_no_chunks_and_never_ca
     generator = _FakeContextGenerator()
 
     result = contextual_chunk_prose((), _CharTokenizer(), generator, chunk_size=512)
+
+    assert result == ()
+    assert generator.calls == []
+
+
+# --- contextual_chunk_filing: prose + tables wired together (LEDGER-020) ---
+
+
+def test_contextual_chunk_filing_appends_tables_after_prose_chunks():
+    routed = RoutedElements(
+        prose=(_text("ab", ("Item 8",)),),
+        tables=(
+            DocElement(kind=ElementKind.TABLE, text="| a | b |", section_path=("Item 8",)),
+        ),
+    )
+    generator = _FakeContextGenerator(response="Situates ab.")
+
+    result = contextual_chunk_filing(routed, _CharTokenizer(), generator, chunk_size=512)
+
+    assert result == (
+        ContextualChunk(text="Situates ab.\n\nab", section_path=("Item 8",)),
+        ContextualChunk(text="| a | b |", section_path=("Item 8",)),
+    )
+
+
+def test_contextual_chunk_filing_never_sends_tables_to_the_context_generator():
+    routed = RoutedElements(
+        prose=(),
+        tables=(
+            DocElement(kind=ElementKind.TABLE, text="| a | b |", section_path=("Item 8",)),
+        ),
+    )
+    generator = _FakeContextGenerator()
+
+    contextual_chunk_filing(routed, _CharTokenizer(), generator, chunk_size=512)
+
+    assert generator.calls == []
+
+
+def test_contextual_chunk_filing_fuses_table_caption_via_the_serialiser():
+    routed = RoutedElements(
+        prose=(),
+        tables=(
+            DocElement(
+                kind=ElementKind.TABLE,
+                text="| a | b |",
+                section_path=("Item 8",),
+                table_caption="Revenue by segment",
+            ),
+        ),
+    )
+
+    result = contextual_chunk_filing(
+        routed, _CharTokenizer(), _FakeContextGenerator(), chunk_size=512
+    )
+
+    assert result == (
+        ContextualChunk(text="**Revenue by segment**\n\n| a | b |", section_path=("Item 8",)),
+    )
+
+
+def test_contextual_chunk_filing_on_empty_routed_elements_returns_no_chunks():
+    generator = _FakeContextGenerator()
+
+    result = contextual_chunk_filing(RoutedElements(), _CharTokenizer(), generator, chunk_size=512)
 
     assert result == ()
     assert generator.calls == []
